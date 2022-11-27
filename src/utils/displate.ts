@@ -4,10 +4,10 @@ import Sleep from "./Sleep";
 import Logger from "./Logger";
 
 const browserOptions = {
-  // executablePath: "/usr/bin/google-chrome",
-  // args: ["--no-sandbox", "--disable-web-security"],
-  headless: false,
-  dumpio: true,
+  executablePath: "/usr/bin/google-chrome",
+  args: ["--no-sandbox", "--disable-web-security"],
+  // headless: false,
+  // dumpio: true,
 };
 
 export async function fetchNewComingSoons(): Promise<Map<string, IDisplateInfo>> {
