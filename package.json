@@ -1,0 +1,38 @@
+{
+  "name": "displate-notifier",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "runprod": "node /usr/src/app/src/bot.js",
+    "rundev": "node /usr/src/app/src/bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/strenkml/displate-notifier.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/strenkml/displate-notifier/issues"
+  },
+  "homepage": "https://github.com/strenkml/displate-notifier#readme",
+  "dependencies": {
+    "discord.js": "^14.6.0",
+    "enmap": "^5.9.2",
+    "puppeteer": "^19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.44.0",
+    "@typescript-eslint/parser": "^5.44.0",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.9.3"
+  }
+}

@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  server:
+    build: .
+    volumes:
+      - dbData:/usr/src/app/data
+volumes:
+  dbData:

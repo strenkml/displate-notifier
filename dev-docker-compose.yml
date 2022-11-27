@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  server:
+    build:
+      context: .
+      dockerfile: dev-Dockerfile
+    volumes:
+      - dbData:/usr/src/app/data
+      - "E:/Documents/GitHub/displate-notifier/dist:/usr/src/app/src"
+volumes:
+  dbData:
