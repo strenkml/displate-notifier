@@ -19,9 +19,9 @@
   },
   "homepage": "https://github.com/strenkml/displate-notifier#readme",
   "dependencies": {
+    "axios": "^1.2.0",
     "discord.js": "^14.6.0",
-    "enmap": "^5.9.2",
-    "puppeteer": "^19.3.0"
+    "enmap": "^5.9.2"
   },
   "devDependencies": {
     "@types/node": "^18.11.9",
