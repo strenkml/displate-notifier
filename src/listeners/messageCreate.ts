@@ -14,13 +14,15 @@ export default (client: Client): void => {
         Logger.info("Wipe command called!", "messageCreate");
         db.getInstance().wipe();
         // message.reply("Database Wiped!");
+        Logger.info("Deleting caller command", "messageCreate");
+        message.delete();
       } else if (command == "displateRun") {
         Logger.info("Manually running grabber", "messageCreate");
         // message.reply("Manually running grabber");
         runGrabber(client);
+        Logger.info("Deleting caller command", "messageCreate");
+        message.delete();
       }
-      Logger.info("Deleting caller command", "messageCreate");
-      message.delete();
     }
   });
 };
