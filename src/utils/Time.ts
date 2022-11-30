@@ -76,6 +76,10 @@ export default abstract class Time {
     // what's left is seconds
     const seconds = delta % 60;
 
+    if (days < 0 || hours < 0 || minutes < 0 || seconds < 0) {
+      return "PURCHASABLE";
+    }
+
     return `${days}d ${hours}h ${minutes}m ${seconds}s`;
   }
 

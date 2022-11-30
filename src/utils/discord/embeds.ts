@@ -69,11 +69,11 @@ export function getDisplateEmbed(info: DisplateItem): EmbedBuilder | undefined {
   // Set the format field
   let format: string;
   if (info.format == DisplateFormat.MEDIUM) {
-    format = "M";
+    format = "Medium";
   } else if (info.format == DisplateFormat.LARGE) {
-    format = "L";
+    format = "Large";
   } else {
-    format = "XL";
+    format = "Extra Large";
   }
   embed.addFields({ name: "Format", value: format });
 
