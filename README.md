@@ -1,6 +1,9 @@
 # Displate Discord Notifier
 
-My friends and I kept missing some really good Limited Edition Displates, so I made this bot to notify us when new ones come out
+My friends and I kept missing some really good Limited Edition Displates, so I made this bot to notify us when new ones come out.
+
+## Description
+
 Discord bot that uses the Displate Limited Edition api to pull information about current and upcoming Limited Edtions.
 
 ## Features
