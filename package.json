@@ -4,7 +4,7 @@
   "description": "",
   "main": "bot.ts",
   "scripts": {
-    "start": "node /usr/src/app/src/bot.ts"
+    "start": "npx tsx /usr/src/app/src/bot.ts"
   },
   "repository": {
     "type": "git",
