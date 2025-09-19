@@ -4,7 +4,17 @@
   "description": "",
   "main": "bot.ts",
   "scripts": {
-    "start": "npx tsx /usr/src/app/src/bot.ts"
+    "build": "pnpm exec tsc --noEmit",
+    "start": "pnpm exec tsx src/bot.ts",
+    "start:dev": "pnpm run build && pnpm exec tsx src/bot.ts",
+    "start:watch": "pnpm exec tsx watch src/bot.ts",
+    "lint": "pnpm exec eslint .",
+    "lint:fix": "pnpm exec eslint . --fix",
+    "format": "pnpm exec prettier --ignore-path .gitignore --write \"**/*.+(ts|json)\"",
+    "update": "pnpm exec npm-check -u",
+    "depcheck": "pnpm exec npm-check",
+    "prepare": "husky",
+    "circular-deps": "pnpm exec madge --circular --extensions ts src"
   },
   "repository": {
     "type": "git",
@@ -18,19 +28,32 @@
   },
   "homepage": "https://github.com/strenkml/displate-notifier#readme",
   "dependencies": {
+    "@strenkml/discordjs-utils": "^1.0.0",
     "axios": "^1.2.0",
     "discord.js": "^14.6.0",
-    "enmap": "^5.9.2"
+    "enmap-wrapper": "^1.0.0",
+    "stumper": "^2.0.0"
   },
   "devDependencies": {
-    "@types/node": "^18.11.9",
-    "@typescript-eslint/eslint-plugin": "^5.44.0",
-    "@typescript-eslint/parser": "^5.44.0",
-    "eslint": "^8.28.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.8.0",
+    "@types/node": "^24.5.2",
+    "@typescript-eslint/eslint-plugin": "^8.44.0",
+    "@typescript-eslint/parser": "^8.44.0",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "husky": "^9.1.7",
+    "madge": "^8.0.0",
+    "npm-check": "^6.0.1",
+    "prettier": "^3.6.2",
     "tsx": "^4.20.5",
-    "typescript": "^4.9.3"
+    "typescript": "^5.9.2"
+  },
+  "madge": {
+    "detectiveOptions": {
+      "ts": {
+        "skipAsyncImports": true,
+        "skipTypeImports": true
+      }
+    }
   }
 }
