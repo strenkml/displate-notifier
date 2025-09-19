@@ -1,8 +1,6 @@
+// TODO: Gut out the discord related stuff
 import { ActivityType, Client } from "discord.js";
 
-import Logger from "../utils/Logger";
-import Time from "../utils/Time";
-import discord from "../utils/discord/discord";
 import DisplateDB from "../providers/displate.database";
 import { DisplateAPI } from "../providers/displate.api";
 import { DisplateStatus } from "../models/DisplateItem";

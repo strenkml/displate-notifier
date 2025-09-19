@@ -1,11 +1,34 @@
-import { Client, GatewayIntentBits } from "discord.js";
+/* -------------------------------------------------------------------------- */
+/*                                Setup Stumper                                */
+/* -------------------------------------------------------------------------- */
+import Stumper, { LOG_LEVEL, TIMEZONE } from "stumper";
+Stumper.setConfig({ logLevel: LOG_LEVEL.ALL, useColors: false, timezone: TIMEZONE.LOCAL });
 
-import * as config from "./config/discord.json";
+/* -------------------------------------------------------------------------- */
+/*                        Setup Process Error Handling                        */
+/* -------------------------------------------------------------------------- */
+import processErrorHandling from "./listeners/processErrorHandling";
 
-import ready from "./listeners/ready";
-import messageCreate from "./listeners/messageCreate";
+processErrorHandling();
 
-import Time from "./utils/Time";
+/* -------------------------------------------------------------------------- */
+/*                            Setup SigINT handling                           */
+/* -------------------------------------------------------------------------- */
+import onSigInt from "./listeners/onSigInt";
+
+onSigInt();
+
+/* -------------------------------------------------------------------------- */
+/*                          Initialize Health Manager                         */
+/* -------------------------------------------------------------------------- */
+import { BotHealthManager, onInteractionCreate, onReady, Time } from "@strenkml/discordjs-utils";
+BotHealthManager.getInstance();
+
+/* -------------------------------------------------------------------------- */
+/*                            Create Discord Client                           */
+/* -------------------------------------------------------------------------- */
+
+import { Client, Collection, GatewayIntentBits } from "discord.js";
 
 const client = new Client({
   intents: [
@@ -17,9 +40,43 @@ const client = new Client({
   ],
 });
 
-client.lastRun = Time.getCurrentTime();
+/* -------------------------------------------------------------------------- */
+/*                        Setup Discord Error Handling                        */
+/* -------------------------------------------------------------------------- */
+import discordErrorHandling from "./listeners/discordErrorHandling";
 
-ready(client);
-messageCreate(client);
+discordErrorHandling(client);
 
-client.login(config.token);
+/* -------------------------------------------------------------------------- */
+/*                       Setup Collections for commands                       */
+/* -------------------------------------------------------------------------- */
+client.slashCommands = new Collection();
+
+/* -------------------------------------------------------------------------- */
+/*                               Setup Managers                               */
+/* -------------------------------------------------------------------------- */
+import { ClientManager, SlashCommandManager } from "@strenkml/discordjs-utils";
+import Config from "./config/Config";
+
+ClientManager.getInstance(client);
+SlashCommandManager.getInstance();
+
+/* -------------------------------------------------------------------------- */
+/*                                 Run Startup                                */
+/* -------------------------------------------------------------------------- */
+startUp();
+
+async function startUp(): Promise<void> {
+  client.lastRun = Time.getCurrentTime();
+
+  /* -------------------------------------------------------------------------- */
+  /*                      Register Our Other Event Handlers                     */
+  /* -------------------------------------------------------------------------- */
+  onInteractionCreate(client);
+  onReady(client);
+
+  /* -------------------------------------------------------------------------- */
+  /*                                Log into bot                                */
+  /* -------------------------------------------------------------------------- */
+  client.login(Config.getConfig().token);
+}

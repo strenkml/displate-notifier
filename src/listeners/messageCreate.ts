@@ -1,3 +1,4 @@
+// TODO: Convert to slash commands and delete file
 import { Client, Message } from "discord.js";
 
 import Logger from "../utils/Logger";

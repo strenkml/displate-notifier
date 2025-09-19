@@ -1,21 +1,18 @@
-import Enmap from "enmap";
-import Logger from "../utils/Logger";
+import { Database } from "enmap-wrapper";
 
 import DisplateItem from "../models/DisplateItem";
 
-export default class DisplateDB {
+export default class DisplateDB extends Database {
   private static instance: DisplateDB;
-  private db: Enmap;
 
   private constructor() {
-    this.db = new Enmap({ name: "displate" });
+    super({
+      name: "displate"
+    })
   }
 
   static getInstance(): DisplateDB {
-    if (!DisplateDB.instance) {
-      DisplateDB.instance = new DisplateDB();
-    }
-    return DisplateDB.instance;
+    return this.instance || (this.instance = new this());
   }
 
   addItem(id: string, info: DisplateItem, embedMessageId: string, mentionMessageId: string): boolean {
@@ -66,11 +63,6 @@ export default class DisplateDB {
 
   isItemDeleted(id: string): boolean {
     return this.db.get(id).deleted;
-  }
-
-  wipe(): void {
-    Logger.info("Wiping database!");
-    this.db.clear();
   }
 }
 

@@ -3,4 +3,4 @@ chromium
 .vscode
 data
 dist
-src/config/discord.json
+**/local.config.ts
