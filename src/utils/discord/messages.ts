@@ -23,6 +23,23 @@ export async function mentionPingRole(client: Client): Promise<string | undefine
   return undefined;
 }
 
+export async function sendReminderToChannel(
+  client: Client,
+  userIds: string[],
+  embed: EmbedBuilder
+): Promise<string | undefined> {
+  const channel = client.channels.cache.get(config.channelId) as TextChannel;
+  if (channel) {
+    Logger.info(`Sending member sale reminder to channel: ${config.channelId}`, "sendReminderToChannel");
+    const msg = await channel.send({
+      content: userIds.map((id) => `<@${id}>`).join(" "),
+      embeds: [embed],
+    });
+    return msg.id;
+  }
+  return undefined;
+}
+
 export async function editMessageEmbed(client: Client, messageId: string, newEmbed: EmbedBuilder): Promise<boolean> {
   const channel = client.channels.cache.get(config.channelId) as TextChannel;
   let message: Message;

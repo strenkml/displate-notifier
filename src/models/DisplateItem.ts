@@ -1,3 +1,5 @@
+import Time from "../utils/Time";
+
 export default class DisplateItem {
   itemCollectionId: string;
   title: string;
@@ -11,6 +13,7 @@ export default class DisplateItem {
   type: DisplateType;
   format: DisplateFormat;
   timeToStart = -1;
+  memberAccessDate?: Date;
 
   imageUrl: string;
 
@@ -28,6 +31,7 @@ export default class DisplateItem {
     } else if (_status == "upcoming") {
       this.status = DisplateStatus.UPCOMING;
       this.timeToStart = data.edition.timeToStart;
+      this.memberAccessDate = Time.getMemberAccessDate(this.startDate);
     } else if (_status == "sold_out") {
       this.status = DisplateStatus.SOLD_OUT;
     } else {

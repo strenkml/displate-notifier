@@ -1,11 +1,11 @@
 import Enmap from "enmap";
 import Logger from "../utils/Logger";
 
-import DisplateItem from "../models/DisplateItem";
+import DisplateItem, { DisplateStatus } from "../models/DisplateItem";
 
 export default class DisplateDB {
   private static instance: DisplateDB;
-  private db: Enmap;
+  private db: Enmap<string, IDisplateDBItem>;
 
   private constructor() {
     this.db = new Enmap({ name: "displate" });
@@ -25,8 +25,54 @@ export default class DisplateDB {
         embedMessageId: embedMessageId,
         mentionMessageId: mentionMessageId,
         deleted: false,
+        watchers: [],
+        reminderSent: false,
       };
       this.db.set(id, item);
+      return true;
+    }
+    return false;
+  }
+
+  findIdByEmbedMessageId(messageId: string): string | undefined {
+    for (const [id, item] of this.db) {
+      if (item.embedMessageId === messageId) {
+        return id;
+      }
+    }
+    return undefined;
+  }
+
+  toggleWatcher(id: string, userId: string): "added" | "removed" | undefined {
+    if (!this.hasItem(id)) {
+      return undefined;
+    }
+    const watchers = this.getItem(id).watchers ?? [];
+    if (watchers.includes(userId)) {
+      this.db.set(
+        id,
+        watchers.filter((watcherId) => watcherId !== userId),
+        "watchers"
+      );
+      return "removed";
+    }
+    this.db.set(id, [...watchers, userId], "watchers");
+    return "added";
+  }
+
+  getItemsPendingReminder(): Array<{ id: string; item: IDisplateDBItem }> {
+    const pending: Array<{ id: string; item: IDisplateDBItem }> = [];
+    for (const [id, item] of this.db) {
+      if (item.watchers?.length > 0 && !item.reminderSent && item.info.status === DisplateStatus.UPCOMING) {
+        pending.push({ id, item });
+      }
+    }
+    return pending;
+  }
+
+  markReminderSent(id: string): boolean {
+    if (this.hasItem(id)) {
+      this.db.set(id, true, "reminderSent");
       return true;
     }
     return false;
@@ -53,7 +99,7 @@ export default class DisplateDB {
   }
 
   getItem(id: string): IDisplateDBItem {
-    return this.db.get(id);
+    return this.db.get(id) as IDisplateDBItem;
   }
 
   markItemDeleted(id: string): boolean {
@@ -65,7 +111,7 @@ export default class DisplateDB {
   }
 
   isItemDeleted(id: string): boolean {
-    return this.db.get(id).deleted;
+    return this.getItem(id).deleted;
   }
 
   wipe(): void {
@@ -79,4 +125,6 @@ interface IDisplateDBItem {
   embedMessageId: string;
   mentionMessageId: string;
   deleted: boolean;
+  watchers: string[];
+  reminderSent: boolean;
 }

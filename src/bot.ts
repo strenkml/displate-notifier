@@ -4,6 +4,7 @@ import * as config from "./config/discord.json";
 
 import ready from "./listeners/ready";
 import messageCreate from "./listeners/messageCreate";
+import interactionCreate from "./listeners/interactionCreate";
 
 import Time from "./utils/Time";
 
@@ -21,5 +22,6 @@ client.lastRun = Time.getCurrentTime();
 
 ready(client);
 messageCreate(client);
+interactionCreate(client);
 
 client.login(config.token);

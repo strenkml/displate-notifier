@@ -82,6 +82,19 @@ export function getDisplateEmbed(info: DisplateItem): EmbedBuilder | undefined {
 
   return embed;
 }
+
+export function getReminderEmbed(info: DisplateItem): EmbedBuilder {
+  const embed = new EmbedBuilder();
+
+  embed.setColor("Blue");
+  embed.setTitle("Member Sale Starting Soon");
+  embed.setDescription(`${info.title}\n1 hour until member access`);
+  embed.setImage(info.imageUrl);
+  embed.setURL(`https://displate.com${info.url}`);
+  embed.setTimestamp(Time.getCurrentTime());
+
+  return embed;
+}
 // export function getDisplateEmbed(info: DisplateItem): EmbedBuilder {
 //   const embed = new EmbedBuilder();
 

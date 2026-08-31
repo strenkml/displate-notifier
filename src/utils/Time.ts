@@ -83,16 +83,20 @@ export default abstract class Time {
     return `${days}d ${hours}h ${minutes}m ${seconds}s`;
   }
 
-  static timeUntilMemberAccess(nonMemberTimeToStart: number): string {
-    const memberTimeOffsetDays = 1.020833333333333; // 1 day and 30 minutes
-    const memberTimeOffset = memberTimeOffsetDays * 86400000;
+  private static memberTimeOffsetDays = 1.020833333333333; // 1 day and 30 minutes
+  private static memberTimeOffsetMs = Time.memberTimeOffsetDays * 86400000;
 
-    const timeToStartAdjusted = nonMemberTimeToStart - memberTimeOffset;
+  static timeUntilMemberAccess(nonMemberTimeToStart: number): string {
+    const timeToStartAdjusted = nonMemberTimeToStart - this.memberTimeOffsetMs;
 
     return this.timeToStartConverter(timeToStartAdjusted);
   }
 
   static timeUntilNonMemberAccess(nonMemberTimeToStart: number): string {
     return this.timeToStartConverter(nonMemberTimeToStart);
+  }
+
+  static getMemberAccessDate(nonMemberStartDate: Date): Date {
+    return new Date(nonMemberStartDate.getTime() - this.memberTimeOffsetMs);
   }
 }

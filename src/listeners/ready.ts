@@ -15,6 +15,8 @@ export default (client: Client): void => {
       client.user.setActivity("for Displates", { type: ActivityType.Watching });
     }
 
+    await discord.commands.registerCommands(client);
+
     setInterval(() => {
       tick(client);
     }, 1000);
@@ -30,6 +32,24 @@ function tick(client: Client) {
   if (mins == 0 && client.lastRun.getHours() != now.getHours()) {
     runGrabber(client);
     client.lastRun = now;
+  }
+  checkMemberSaleReminders(client);
+}
+
+function checkMemberSaleReminders(client: Client) {
+  const db = DisplateDB.getInstance();
+  const now = Time.getCurrentTime().getTime();
+
+  for (const { id, item } of db.getItemsPendingReminder()) {
+    if (!item.info.memberAccessDate) {
+      continue;
+    }
+    const memberAccess = new Date(item.info.memberAccessDate).getTime();
+    if (now >= memberAccess - 3600000) {
+      const embed = discord.embeds.getReminderEmbed(item.info);
+      discord.messages.sendReminderToChannel(client, item.watchers, embed);
+      db.markReminderSent(id);
+    }
   }
 }
 
