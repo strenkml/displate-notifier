@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:20
 
 # Set the timezone
 ENV TZ=America/New_York
