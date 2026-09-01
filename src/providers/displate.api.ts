@@ -34,7 +34,7 @@ export class DisplateAPI {
         },
       });
       const buf = new Uint8Array(res.data as ArrayBuffer);
-      const html = this.decompress(buf, res.headers["content-encoding"]);
+      const html = this.decompress(buf, res.headers["content-encoding"] as string | undefined);
       const match = html.match(/<script id="__NEXT_DATA__"[^>]*>(.*?)<\/script>/s);
       if (!match) {
         return undefined;
@@ -60,7 +60,7 @@ export class DisplateAPI {
       },
     });
     const buf = new Uint8Array(res.data as ArrayBuffer);
-    const text = this.decompress(buf, res.headers["content-encoding"]);
+    const text = this.decompress(buf, res.headers["content-encoding"] as string | undefined);
     return JSON.parse(text);
   }
 
